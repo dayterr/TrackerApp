@@ -47,7 +47,7 @@ final class TabBarController: UITabBarController {
         self.viewControllers = dataSource.map {
             switch $0 {
             case .trackers:
-                let trackersViewController = MainViewController()
+                let trackersViewController = TrackersViewController()
                 return self.wrappedNavigationController(with: trackersViewController, title: $0.itemTitle)
                 
             case .stats:
