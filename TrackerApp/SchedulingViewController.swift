@@ -117,7 +117,7 @@ extension SchedulingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = daysOfWeekTableView.dequeueReusableCell(withIdentifier: "weekDayCell", for: indexPath)
         cell.textLabel?.text = daysOfWeek[indexPath.row]
-        cell.backgroundColor = UIColor(named: "LightGrey")
+        cell.backgroundColor = UIColor(named: "GrayHex")
         cell.accessoryView = switcher(for: indexPath)
         return cell
     }

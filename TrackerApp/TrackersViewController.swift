@@ -160,7 +160,7 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
                return name && date
            }
            if trackers.isEmpty {
-               return TrackerCategory(name: "", trackersList: [Tracker]())
+               return nil
            }
            return TrackerCategory(name: category.name, trackersList: trackers)
        }
@@ -227,7 +227,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         }.count
         let trackerIsDone = trackerIsRecordedToday(id: tracker.ID)
         cell.prepareForReuse()
-        cell.updateCell(tracker: tracker, trackerWasDone: trackerIsDone, days: completedDays, indexPath: indexPath)
+        cell.updateCell(tracker: tracker, trackerDone: trackerIsDone, days: completedDays, indexPath: indexPath)
         return cell
     }
     
@@ -246,7 +246,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 
 extension TrackersViewController: TrackersCollectionViewCellDelegate {
     func trackerDone(id: UUID, indexPath: IndexPath) {
-        if datePicker.date > currentDate {
+        if datePicker.date > Date() {
             return
         }
         let trackerRecord = TrackerRecord(ID: id, dateRecord: datePicker.date)

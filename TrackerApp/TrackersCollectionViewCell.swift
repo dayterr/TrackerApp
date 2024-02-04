@@ -113,10 +113,10 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         markButton.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func updateCell(tracker: Tracker, trackerWasDone: Bool, days: Int, indexPath: IndexPath) {
+    func updateCell(tracker: Tracker, trackerDone: Bool, days: Int, indexPath: IndexPath) {
         self.trackerID = tracker.ID
         self.indexPath = indexPath
-        self.isDone = trackerWasDone
+        self.isDone = trackerDone
         field.backgroundColor = tracker.color
         emojiLabel.text = tracker.emoji
         titleLabel.text = tracker.name
