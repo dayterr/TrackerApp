@@ -14,6 +14,8 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
     var categories: [TrackerCategory] = []
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
+    private var trackerCategoryStore = TrackerCategoryStore()
+    private var trackerRecordStore = TrackerRecordStore()
     
     private lazy var addNewTrackerButtonIcon: UIButton = {
         let addNewTrackerButton = UIButton()
@@ -130,6 +132,14 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
         
         view.backgroundColor = .white
         setupViews()
+        
+        trackerCategoryStore.delegate = self
+        categories = trackerCategoryStore.trackerCategories
+        trackerRecordStore.delegate = self
+        completedTrackers = trackerRecordStore.completedTrackers
+        
+        visibleCategories = categories
+        updateVisibleCategories()
     }
     
     private func showPlaceholder(message: String, image: UIImage, isHidden: Bool) {
@@ -177,13 +187,9 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
         dismiss(animated: true)
     }
     
-    private func trackerIsRecorded(trackerRecord: TrackerRecord, id: UUID) -> Bool {
-        return trackerRecord.ID == id && Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
-    }
-    
-    private func trackerIsRecordedToday(id: UUID) -> Bool {
+    private func isTrackerRecorded(id: UUID) -> Bool {
         completedTrackers.contains { trackerRecord in
-            trackerIsRecorded(trackerRecord: trackerRecord, id: id)
+            trackerRecord.ID == id && Calendar.current.isDate(trackerRecord.dateRecord, inSameDayAs: datePicker.date)
         }
     }
 }
@@ -192,16 +198,7 @@ extension TrackersViewController: AddItemTrackedViewControllerDelegate {
     
     func updateTrackersData(newCategory: TrackerCategory, newTracker: Tracker) {
 
-        if let index = categories.firstIndex(where: { $0.name == newCategory.name }) {
-            var updateTrackers = categories[index].trackersList
-            updateTrackers.append(newTracker)
-            let updateCategory = TrackerCategory(name: newCategory.name, trackersList: updateTrackers)
-            categories[index] = updateCategory
-        } else {
-            let newCategory = TrackerCategory(name: newCategory.name, trackersList: [newTracker])
-            categories.append(newCategory)
-        }
-        
+        try? trackerCategoryStore.saveTrackerCategory(newCategory: newCategory)
         updateVisibleCategories()
     }
 }
@@ -225,7 +222,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         let completedDays = completedTrackers.filter {
             $0.ID == tracker.ID
         }.count
-        let trackerIsDone = trackerIsRecordedToday(id: tracker.ID)
+        let trackerIsDone = isTrackerRecorded(id: tracker.ID)
         cell.prepareForReuse()
         cell.updateCell(tracker: tracker, trackerDone: trackerIsDone, days: completedDays, indexPath: indexPath)
         return cell
@@ -250,14 +247,12 @@ extension TrackersViewController: TrackersCollectionViewCellDelegate {
             return
         }
         let trackerRecord = TrackerRecord(ID: id, dateRecord: datePicker.date)
-        completedTrackers.append(trackerRecord)
-        trackersCollection.reloadItems(at: [indexPath])
+        try? trackerRecordStore.removeTrackerRecord(trackerRecord: trackerRecord)
     }
     
     func trackerNotDone(id: UUID, indexPath: IndexPath) {
-        completedTrackers.removeAll { trackerRecord in
-            trackerIsRecorded(trackerRecord: trackerRecord, id: id)
-        }
+        let trackerRecord = TrackerRecord(ID: id, dateRecord: datePicker.date)
+        try? trackerRecordStore.removeTrackerRecord(trackerRecord: trackerRecord)
         trackersCollection.reloadItems(at: [indexPath])
     }
 }
@@ -295,5 +290,19 @@ extension TrackersViewController: UISearchTextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         updateVisibleCategories()
         return textField.resignFirstResponder()
+    }
+}
+
+extension TrackersViewController: TrackerCategoryStoreDelegate {
+    
+    func updateCategories() {
+        categories = trackerCategoryStore.trackerCategories
+    }
+}
+
+extension TrackersViewController: TrackerRecordStoreDelegate {
+    
+    func updateTrackerRecords() {
+        completedTrackers = trackerRecordStore.completedTrackers
     }
 }
