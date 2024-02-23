@@ -243,11 +243,9 @@ extension TrackersViewController: UICollectionViewDataSource {
 
 extension TrackersViewController: TrackersCollectionViewCellDelegate {
     func trackerDone(id: UUID, indexPath: IndexPath) {
-        print(datePicker.date, Date())
         if datePicker.date > Date() {
             return
         }
-        print("kkk")
         let trackerRecord = TrackerRecord(ID: id, dateRecord: datePicker.date)
         try? trackerRecordStore.addTrackerRecord(trackerRecord: trackerRecord)
         trackersCollection.reloadItems(at: [indexPath])

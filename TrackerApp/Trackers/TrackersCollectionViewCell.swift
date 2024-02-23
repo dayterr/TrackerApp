@@ -121,9 +121,15 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         emojiLabel.text = tracker.emoji
         titleLabel.text = tracker.name
         amountLabel.text = daysText(days: days)
+        print("hyhy", isDone)
         let markButtonImage = isDone ? UIImage(named: "DoneButton") : UIImage(named: "PlusButton")
+            
+        print(markButtonImage)
+        
         markButton.setImage(markButtonImage, for: .normal)
         markButton.tintColor = tracker.color
+        print(tracker.color)
+        
     }
     
     func daysText(days: Int) -> String {
