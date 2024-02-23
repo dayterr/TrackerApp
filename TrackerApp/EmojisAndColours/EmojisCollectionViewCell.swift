@@ -14,7 +14,7 @@ final class EmojisCollectionViewCell: UICollectionViewCell {
                          "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
     ]
     
-    var titleLabel: UILabel = {
+    private var titleLabel: UILabel = {
        let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         return label
@@ -34,8 +34,8 @@ final class EmojisCollectionViewCell: UICollectionViewCell {
     }
     
     private func addSubViews() {
-        contentView.addSubview(titleLabel)
         contentView.addSubview(fieldView)
+        contentView.addSubview(titleLabel)
     }
     
     private func applyConstraints() {
@@ -45,6 +45,7 @@ final class EmojisCollectionViewCell: UICollectionViewCell {
             fieldView.heightAnchor.constraint(equalToConstant: 52),
             fieldView.widthAnchor.constraint(equalToConstant: 52),
         ])
+        fieldView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -53,11 +54,8 @@ final class EmojisCollectionViewCell: UICollectionViewCell {
     }
     
     func isSelected(isSelect: Bool) {
-        if let colour = isSelect ? UIColor(named: "LightGrey") : .clear {
-            fieldView.backgroundColor = colour
-        } else {
-            fieldView.backgroundColor = UIColor.lightGray
-        }
+        let colour = isSelect ? UIColor(named: "LightGrey") : .clear
+        fieldView.backgroundColor = colour
     }
     
     func startCellEmoji(indexPath: IndexPath) {
