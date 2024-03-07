@@ -236,12 +236,12 @@ extension AddItemTrackedViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojisCollectionViewCell", for: indexPath) as! EmojisCollectionViewCell
-            cell.titleLabel.text = emojis[indexPath.row]
+            cell.startCellEmoji(indexPath: indexPath)
             return cell
         } else if indexPath.section == 1 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColoursCollectionViewCell", for: indexPath) as! ColoursCollectionViewCell
-            cell.view.backgroundColor = colours[indexPath.row]
-            cell.view.layer.cornerRadius = 8
+            cell.startFieldColor(indexPath: indexPath)
+            cell.isSelected(isSelect: false)
             return cell
         } else {
             let cell = UICollectionViewCell()
@@ -270,6 +270,7 @@ extension AddItemTrackedViewController: UITableViewDelegate {
         } else {
             let controllerToPresent = SchedulingViewController()
             controllerToPresent.delegate = self
+            controllerToPresent.daysOfWeekChosen = scheduleSelected
             navigationController?.pushViewController(controllerToPresent, animated: true)
         }
     }
@@ -361,23 +362,23 @@ extension AddItemTrackedViewController: UICollectionViewDelegateFlowLayout {
         if indexPath.section == 0 {
             if let selectedEmoji = indexOfEmoji {
                 let cell = collectionView.cellForItem(at: selectedEmoji) as? EmojisCollectionViewCell
-                cell?.isSelected = false
+                cell?.isSelected(isSelect: false)
             }
             indexOfEmoji = indexPath
         } else {
             if let selectedColor = indexOfColour {
                 let cell = collectionView.cellForItem(at: selectedColor) as? ColoursCollectionViewCell
-                cell?.isSelected = false
+                cell?.isSelected(isSelect: false)
             }
             indexOfColour = indexPath
         }
         if indexPath.section == 0 {
             let cell = collectionView.cellForItem(at: indexPath) as? EmojisCollectionViewCell
-            cell?.isSelected = true
+            cell?.isSelected(isSelect: true)
             turnOnAddButton()
         } else {
             let cell = collectionView.cellForItem(at: indexPath) as? ColoursCollectionViewCell
-            cell?.isSelected = true
+            cell?.isSelected(isSelect: true)
             turnOnAddButton()
         }
     }
