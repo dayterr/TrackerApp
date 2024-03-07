@@ -13,13 +13,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        self.window = UIWindow(windowScene: windowScene)
-        self.window?.makeKeyAndVisible()
-        self.window?.rootViewController = TabBarController()
-    }
+            guard let windowScene = (scene as? UIWindowScene) else { return }
+            
+            self.window = UIWindow(windowScene: windowScene)
+            self.window?.makeKeyAndVisible()
+            if UserDefaults.standard.bool(forKey: "notFirstTimeStarted") {
+                self.window?.rootViewController = TabBarController()
+            } else {
+                UserDefaults.standard.set(true, forKey: "notFirstTimeStarted")
+                self.window?.rootViewController = OnboardingViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            }
+        }
 
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

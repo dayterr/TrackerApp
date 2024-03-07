@@ -13,7 +13,7 @@ final class SelectTypeViewController: UIViewController {
     
     private lazy var createHabbitButton: UIButton = {
         let habbitButton = UIButton()
-        habbitButton.backgroundColor = .black
+        habbitButton.backgroundColor = UIColor(named: "Black")
         habbitButton.setTitle("Привычка", for: .normal)
         habbitButton.layer.cornerRadius = 16
         habbitButton.addTarget(self, action: #selector(tapCreateHabbitButton), for: .touchUpInside)
@@ -22,7 +22,7 @@ final class SelectTypeViewController: UIViewController {
     
     private lazy var createIrregularEventButton: UIButton = {
         let irregularEventButton = UIButton()
-        irregularEventButton.backgroundColor = .black
+        irregularEventButton.backgroundColor = UIColor(named: "Black")
         irregularEventButton.setTitle("Нерегулярное событие", for: .normal)
         irregularEventButton.layer.cornerRadius = 16
         irregularEventButton.addTarget(self, action: #selector(tapCreateIrregularEventButton), for: .touchUpInside)
@@ -32,7 +32,7 @@ final class SelectTypeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         addSubViews()
         applyConstraints()
     }

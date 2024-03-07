@@ -37,4 +37,12 @@ final class TrackersSupplementaryView: UICollectionReusableView {
             headerLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12)
         ])
     }
+    
+    func launchEmojiTitle() {
+        headerLabel.text = "Emoji"
+    }
+
+    func launchColorTitle() {
+        headerLabel.text = "Цвет"
+    }
 }
