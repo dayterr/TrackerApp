@@ -13,7 +13,7 @@ final class OnboardingPageViewController: UIViewController {
     
     private lazy var textLabel: UILabel = {
         let textLabel = UILabel()
-        textLabel.textColor = UIColor(named: "White")
+        textLabel.textColor = UIColor(named: "Black")
         textLabel.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         textLabel.textAlignment = .center
         textLabel.numberOfLines = 0
