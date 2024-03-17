@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D479688E2BA6706F008A1128 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D479688D2BA6706F008A1128 /* Localizable.strings */; };
+		D47968A22BA673D1008A1128 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D47968A42BA673D1008A1128 /* Localizable.strings */; };
 		D49375A02B0B80AE00C8B78C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D493759F2B0B80AE00C8B78C /* AppDelegate.swift */; };
 		D49375A22B0B80AE00C8B78C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49375A12B0B80AE00C8B78C /* SceneDelegate.swift */; };
 		D49375A72B0B80AE00C8B78C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D49375A52B0B80AE00C8B78C /* Main.storyboard */; };
@@ -43,7 +43,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D479688D2BA6706F008A1128 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		D47968A32BA673D1008A1128 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D47968A62BA673FF008A1128 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D493759C2B0B80AE00C8B78C /* TrackerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrackerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D493759F2B0B80AE00C8B78C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D49375A12B0B80AE00C8B78C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,7 +111,6 @@
 		D493759E2B0B80AE00C8B78C /* TrackerApp */ = {
 			isa = PBXGroup;
 			children = (
-				D479688D2BA6706F008A1128 /* Localizable.strings */,
 				D4AB2E672B9A724200249B34 /* Onboarding */,
 				D4AB2E5A2B94D1BB00249B34 /* Category */,
 				D4A25BFB2B87AD6900806D4A /* Store */,
@@ -131,6 +131,7 @@
 				D4EC51AC2B5F3332009A3CD9 /* AddCategoryViewController.swift */,
 				D4BAC4342B55FF380079C803 /* Structures.swift */,
 				D4EC51AE2B6C4F96009A3CD9 /* SchedulingViewController.swift */,
+				D47968A42BA673D1008A1128 /* Localizable.strings */,
 			);
 			path = TrackerApp;
 			sourceTree = "<group>";
@@ -256,7 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D49375AC2B0B80B100C8B78C /* LaunchScreen.storyboard in Resources */,
-				D479688E2BA6706F008A1128 /* Localizable.strings in Resources */,
+				D47968A22BA673D1008A1128 /* Localizable.strings in Resources */,
 				D49375A92B0B80B100C8B78C /* Assets.xcassets in Resources */,
 				D49375A72B0B80AE00C8B78C /* Main.storyboard in Resources */,
 			);
@@ -304,6 +305,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		D47968A42BA673D1008A1128 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D47968A32BA673D1008A1128 /* en */,
+				D47968A62BA673FF008A1128 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		D49375A52B0B80AE00C8B78C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
