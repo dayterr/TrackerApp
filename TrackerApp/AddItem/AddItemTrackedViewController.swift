@@ -23,7 +23,7 @@ final class AddItemTrackedViewController: UIViewController {
     
     private let colours: [UIColor] = (1...18).map { UIColor(named: "Colour\($0)") ?? UIColor.clear }
     private var itemTitle: String?
-    private var itemCategory: TrackerCategory?
+    private var categoryTitle: String?
     private var indexOfColour: IndexPath?
     private var indexOfEmoji: IndexPath?
     private var scheduleSelected: [DayOfWeek] = []
@@ -187,7 +187,7 @@ final class AddItemTrackedViewController: UIViewController {
     }
     
     private func turnOnAddButton() {
-        if titleField.text != nil, itemCategory != nil, itemType == .irregularEvent || itemType == .habbit && !scheduleSelected.isEmpty, indexOfColour != nil, indexOfEmoji != nil {
+        if titleField.text != nil, categoryTitle != nil, itemType == .irregularEvent || itemType == .habbit && !scheduleSelected.isEmpty, indexOfColour != nil, indexOfEmoji != nil {
             addButton.isEnabled = true
             addButton.backgroundColor = UIColor(named: "Black")
         } else {
@@ -214,7 +214,7 @@ final class AddItemTrackedViewController: UIViewController {
     
     @objc private func createNewItem() {
         let newItem = Tracker(ID: UUID(), name: titleField.text ?? "", color: colours[indexOfColour?.row ?? 0], emoji: emojis[indexOfEmoji?.row ?? 0], schedule: scheduleSelected)
-        let newCategory = TrackerCategory(name: itemCategory?.name ?? "", trackersList: [newItem])
+        let newCategory = TrackerCategory(name: categoryTitle ?? "", trackersList: [newItem])
         delegate?.updateTrackersData(newCategory: newCategory, newTracker: newItem)
         self.dismiss(animated: true, completion: nil)
     }
@@ -264,8 +264,9 @@ extension AddItemTrackedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            let controllerToPresent = AddCategoryViewController()
-            controllerToPresent.delegate = self
+            let controllerToPresent = CategoryViewController()
+            controllerToPresent.categoryViewModel.delegate = self
+            controllerToPresent.categoryViewModel.chooseCategory(category: categoryTitle)
             navigationController?.pushViewController(controllerToPresent, animated: true)
         } else {
             let controllerToPresent = SchedulingViewController()
@@ -310,7 +311,7 @@ extension AddItemTrackedViewController: UITableViewDataSource {
         
         if indexPath.row == 0 {
             textLabel = "Категории"
-            if let categoryName = itemCategory?.name {
+            if let categoryName = categoryTitle {
                 textLabel += "\n" + categoryName }
             } else {
                 textLabel = "Расписание"
@@ -384,13 +385,14 @@ extension AddItemTrackedViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension AddItemTrackedViewController: AddCategoryViewControllerDelegate {
-    func updateNewCategory(newCategory: TrackerCategory?) {
-        self.itemCategory = newCategory
+extension AddItemTrackedViewController: CategoryViewModelDelegate {
+    func updateCategory(newTitle: String?) {
+        categoryTitle = newTitle
         turnOnAddButton()
         buttonsTableView.reloadData()
     }
 }
+
 
 extension AddItemTrackedViewController: SchedulingViewControllerDelegate {
     func updateSchedule(schedule: [DayOfWeek]) {

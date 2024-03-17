@@ -72,6 +72,12 @@ final class TrackerCategoryStore: NSObject {
         }
         try context.save()
     }
+    
+    func saveNewTrackerCategory(categoryTitle: String) throws {
+        let category = TrackerCategoryCoreData(context: context)
+        category.name = categoryTitle
+        try context.save()
+    }
 }
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
