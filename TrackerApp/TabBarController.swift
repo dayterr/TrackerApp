@@ -16,9 +16,9 @@ final class TabBarController: UITabBarController {
         var itemTitle: String {
             switch self {
             case .trackers:
-                return "Трекеры"
+                return NSLocalizedString("trackersTitle", comment: "Text displayed on an empty screen")
             case . stats:
-                return "Cтатистика"
+                return NSLocalizedString("statistics", comment: "Text displayed on an empty screen")
             }
         }
         

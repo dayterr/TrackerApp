@@ -120,11 +120,6 @@ final class AddItemTrackedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        buttonsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CreateHabbitTableViewCell")
-        collectionView.register(EmojisCollectionViewCell.self, forCellWithReuseIdentifier: "EmojisCollectionViewCell")
-        collectionView.register(ColoursCollectionViewCell.self, forCellWithReuseIdentifier: "ColoursCollectionViewCell")
-        collectionView.register(AddItemTrackedSupplView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         addSubViews()
         applyConstraints()
         
@@ -133,6 +128,12 @@ final class AddItemTrackedViewController: UIViewController {
     }
     
     private func addSubViews() {
+        view.backgroundColor = .white
+        buttonsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CreateHabbitTableViewCell")
+        collectionView.register(EmojisCollectionViewCell.self, forCellWithReuseIdentifier: "EmojisCollectionViewCell")
+        collectionView.register(ColoursCollectionViewCell.self, forCellWithReuseIdentifier: "ColoursCollectionViewCell")
+        collectionView.register(AddItemTrackedSupplView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        
         navigationItem.setHidesBackButton(true, animated: true)
         view.addSubview(scrollView)
         scrollView.addSubview(titleField)
@@ -213,7 +214,7 @@ final class AddItemTrackedViewController: UIViewController {
     }
     
     @objc private func createNewItem() {
-        let newItem = Tracker(ID: UUID(), name: titleField.text ?? "", color: colours[indexOfColour?.row ?? 0], emoji: emojis[indexOfEmoji?.row ?? 0], schedule: scheduleSelected)
+        let newItem = Tracker(ID: UUID(), name: titleField.text ?? "", color: colours[indexOfColour?.row ?? 0], emoji: emojis[indexOfEmoji?.row ?? 0], schedule: scheduleSelected, wasAttached: false)
         let newCategory = TrackerCategory(name: categoryTitle ?? "", trackersList: [newItem])
         delegate?.updateTrackersData(newCategory: newCategory, newTracker: newItem)
         self.dismiss(animated: true, completion: nil)

@@ -17,6 +17,8 @@ protocol TrackerCategoryStoreDelegate: AnyObject {
 }
 
 final class TrackerCategoryStore: NSObject {
+    
+    static let shared = TrackerCategoryStore()
 
     weak var delegate: TrackerCategoryStoreDelegate?
     private let context: NSManagedObjectContext
@@ -77,6 +79,10 @@ final class TrackerCategoryStore: NSObject {
         let category = TrackerCategoryCoreData(context: context)
         category.name = categoryTitle
         try context.save()
+    }
+    
+    func categoryContainsTracker(trackerIdentifier: UUID?) throws -> String {
+        trackerCategories.first(where: { $0.trackersList.contains(where: { $0.ID == trackerIdentifier } ) } )?.name ?? ""
     }
 }
 
