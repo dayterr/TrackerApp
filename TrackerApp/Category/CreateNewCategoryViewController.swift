@@ -22,10 +22,10 @@ final class CreateNewCategoryViewController: UIViewController {
         textField.placeholder = "Введите название категори"
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.backgroundColor = UIColor(named: "GrayHex")
+        textField.backgroundColor = .ypGrayHex
         textField.layer.cornerRadius = 16
         textField.layer.borderWidth = 1.0
-        textField.layer.borderColor = UIColor(named: "GrayHex")?.cgColor
+        textField.layer.borderColor = UIColor.ypGrayHex?.cgColor
         textField.layer.masksToBounds = true
         textField.addTarget(self, action: #selector(changeCategoryName), for: .editingChanged)
         return textField
@@ -85,7 +85,7 @@ final class CreateNewCategoryViewController: UIViewController {
     private func activateReadyButton() {
         if categoryTitle != nil {
             doneButton.isEnabled = true
-            doneButton.backgroundColor = UIColor(named: "Black")
+            doneButton.backgroundColor = .ypBlack
         } else {
             doneButton.isEnabled = false
             doneButton.backgroundColor = UIColor(named: "Gray")

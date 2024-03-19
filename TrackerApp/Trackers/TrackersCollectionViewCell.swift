@@ -18,7 +18,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     private var trackerID: UUID?
     private var indexPath: IndexPath?
     private var isDone: Bool = false
-    //private let analyticsService = AnalyticsService.shared
+    private let analyticsService = AnalyticsService.shared
     weak var delegate: TrackersCollectionViewCellDelegate?
     
     private lazy var field: UIView = {
@@ -38,7 +38,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
-        title.textColor = UIColor(named: "White")
+        title.textColor = .ypWhite
         title.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         title.numberOfLines = 2
         title.lineBreakMode = .byWordWrapping
@@ -58,14 +58,14 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     private lazy var amountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "Black")
+        label.textColor = .ypBlack
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return label
     }()
     
     private lazy var markButton: UIButton = {
         let button = UIButton.systemButton(with: UIImage(), target: self, action: #selector(didTapMarkButton))
-        button.backgroundColor = UIColor(named: "White")
+        button.backgroundColor = .ypWhite
         button.layer.cornerRadius = 17
         return button
     }()
@@ -138,7 +138,6 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         emojiLabel.text = tracker.emoji
         titleLabel.text = tracker.name
         amountLabel.text = daysText(days: days)
-        print("hyhy", isDone)
         let markButtonImage = isDone ? UIImage(named: "DoneButton") : UIImage(named: "PlusButton")
         
         markButton.setImage(markButtonImage, for: .normal)
@@ -159,7 +158,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func didTapMarkButton() {
-        //analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"track"])
+        analyticsService.reportEvent(event: "click", params: ["screen":"Main", "item":"track"])
         guard let trackerIdentifier = trackerID, let indexPath = indexPath else { return }
         if isDone {
             delegate?.trackerNotDone(id: trackerIdentifier, indexPath: indexPath)

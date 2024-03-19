@@ -46,7 +46,7 @@ final class EditTrackerViewController: UIViewController {
     
     private lazy var numberOfCompletedDaysLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "Black")
+        label.textColor = .ypBlack
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
         return label
@@ -58,9 +58,9 @@ final class EditTrackerViewController: UIViewController {
         textField.layer.cornerRadius = 16
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.backgroundColor = UIColor(named: "GrayHex")
+        textField.backgroundColor = .ypGrayHex
         textField.layer.borderWidth = 1.0
-        textField.layer.borderColor = UIColor(named: "GrayHex")?.cgColor
+        textField.layer.borderColor = UIColor.ypGrayHex?.cgColor
         textField.layer.masksToBounds = true
         textField.addTarget(self, action: #selector(editTrackerName), for: .editingChanged)
         return textField
@@ -107,7 +107,7 @@ final class EditTrackerViewController: UIViewController {
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 16
-        button.backgroundColor = UIColor(named: "White")
+        button.backgroundColor = .ypWhite
         button.setTitle("Отменить", for: .normal)
         button.setTitleColor(UIColor(named: "Red"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -136,7 +136,7 @@ final class EditTrackerViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.backgroundColor = UIColor(named: "White")
+        view.backgroundColor = .ypWhite
         navigationItem.setHidesBackButton(true, animated: true)
         view.addSubview(scrollView)
         scrollView.addSubview(numberOfCompletedDaysLabel)
@@ -150,8 +150,8 @@ final class EditTrackerViewController: UIViewController {
         
         limitationLabel.isHidden = true
         buttonsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CreateHabbitTableViewCell")
-        collectionView.register(EmojisCollectionViewCell.self, forCellWithReuseIdentifier: "EmojiCollectionViewCell")
-        collectionView.register(ColoursCollectionViewCell.self, forCellWithReuseIdentifier: "ColorsCollectionViewCell")
+        collectionView.register(EmojisCollectionViewCell.self, forCellWithReuseIdentifier: "EmojisCollectionViewCell")
+        collectionView.register(ColoursCollectionViewCell.self, forCellWithReuseIdentifier: "ColoursCollectionViewCell")
         collectionView.register(AddItemTrackedSupplView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         
         trackerName = tracker.name
@@ -209,7 +209,7 @@ final class EditTrackerViewController: UIViewController {
     private func activateCreateButton() {
         if trackerTitleField.text != nil, categoryName != nil, trackerType == .irregularEvent || trackerType == .habbit && !trackerSchedule.isEmpty, indexOfSelectedColor != nil, indexOfSelectedEmoji != nil {
             createButton.isEnabled = true
-            createButton.backgroundColor = UIColor(named: "Black")
+            createButton.backgroundColor = .ypBlack
         } else {
             createButton.isEnabled = false
             createButton.backgroundColor = UIColor(named: "Gray")
@@ -252,7 +252,7 @@ extension EditTrackerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CreateHabbitTableViewCell", for: indexPath)
-        cell.backgroundColor = UIColor(named: "GrayHex")
+        cell.backgroundColor = .ypGrayHex
         cell.selectionStyle = .none
         cell.accessoryType = .disclosureIndicator
         var choosenAttribute = NSMutableAttributedString()
@@ -320,11 +320,11 @@ extension EditTrackerViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.section == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCollectionViewCell", for: indexPath) as! EmojisCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojisCollectionViewCell", for: indexPath) as! EmojisCollectionViewCell
             cell.startCellEmoji(indexPath: indexPath)
             return cell
         } else if indexPath.section == 1 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorsCollectionViewCell", for: indexPath) as! ColoursCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColoursCollectionViewCell", for: indexPath) as! ColoursCollectionViewCell
             cell.startFieldColor(indexPath: indexPath)
             cell.isSelected(isSelect: false)
             return cell

@@ -43,7 +43,7 @@ final class CategoryViewController: UIViewController {
         let button = UIButton()
         button.addTarget(self, action: #selector(didTapAddCategoryButton), for: .touchUpInside)
         button.setTitle("Добавить категорию", for: .normal)
-        button.backgroundColor = UIColor(named: "Black")
+        button.backgroundColor = .ypBlack
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 16
         return button

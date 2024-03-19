@@ -21,11 +21,11 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
     private var analyticsService = AnalyticsService.shared
     private var selectedFilter = Filter.allTrackers
     
-    private lazy var addNewTrackerButtonIcon: UIButton = {
-        let addNewTrackerButton = UIButton()
-        addNewTrackerButton.backgroundColor = .white
-        addNewTrackerButton.setImage(UIImage(named: "addNewTrackerButtonIcon"), for: .normal)
-        addNewTrackerButton.addTarget(self, action: #selector(tapAddNewTrackerButton), for: .touchUpInside)
+    private lazy var addNewTrackerButtonIcon: UIBarButtonItem = {
+        let addNewTrackerButton = UIBarButtonItem()
+        addNewTrackerButton.tintColor = .ypBlack
+        addNewTrackerButton.image = UIImage(named: "addNewTrackerButtonIcon")
+        addNewTrackerButton.action = #selector(tapAddNewTrackerButton)
         return addNewTrackerButton
     }()
     
@@ -84,7 +84,7 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
     private lazy var filterButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "Blue")
-        button.setTitleColor(UIColor(named: "White"), for: .normal)
+        button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         button.setTitle(NSLocalizedString("filterButton", comment: "Text displayed on empty state"), for: .normal)
         button.layer.cornerRadius = 16
@@ -93,6 +93,8 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
     }()
     
     private func setupViews() {
+        view.backgroundColor = .ypWhite
+        
         view.addSubview(titleTrackersLabel)
         view.addSubview(searchField)
         view.addSubview(trackersCollection)
@@ -100,7 +102,10 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(placeholderLabel)
         view.addSubview(filterButton)
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: addNewTrackerButtonIcon)
+        addNewTrackerButtonIcon.target = self
+        
+        navigationItem.leftBarButtonItem = addNewTrackerButtonIcon
+        navigationItem.leftBarButtonItem?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         
         trackersCollection.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: "TrackersCollectionViewCell")
@@ -136,6 +141,7 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
         trackersCollection.translatesAutoresizingMaskIntoConstraints = false
         placeholderImage.translatesAutoresizingMaskIntoConstraints = false
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        filterButton.translatesAutoresizingMaskIntoConstraints = false
         
         trackersCollection.dataSource = self
         trackersCollection.delegate = self
@@ -152,15 +158,11 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
         setupViews()
         
         trackerCategoryStore.delegate = self
-        categories = trackerCategoryStore.trackerCategories
         trackerRecordStore.delegate = self
-        completedTrackers = trackerRecordStore.completedTrackers
         
-        visibleCategories = categories
         updateVisibleCategories()
     }
     
@@ -215,7 +217,7 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
             categories = categories.compactMap { category in
                 let trackersList = category.trackersList.filter { !$0.wasAttached }
                 if trackersList.isEmpty {
-                    return TrackerCategory(name: "", trackersList: [Tracker]())
+                    return nil
                 }
                 return TrackerCategory(name: category.name, trackersList: trackersList)
             }
@@ -239,11 +241,11 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
                 case .completedTrackers:
                     return name && date && isTrackerRecorded(id: tracker.ID)
                 case .incompletedTrackers:
-                    return name && date && isTrackerRecorded(id: tracker.ID)
+                    return name && date && !isTrackerRecorded(id: tracker.ID)
                 }
             }
             if trackers.isEmpty {
-                return TrackerCategory(name: "", trackersList: [Tracker]())
+                return nil
             }
             return TrackerCategory(name: category.name, trackersList: trackers)
         }
@@ -330,6 +332,7 @@ extension TrackersViewController: TrackersCollectionViewCellDelegate {
         
         let attachTracker = UIAction(title: attachedTracker ? NSLocalizedString("unattach", comment: "Text displayed on empty state") : NSLocalizedString("attach", comment: "Text displayed on empty state")) { [weak self] _ in
             try? self?.trackerStore.trackerWasAttached(trackerIdentifier: id, wasAttached: !attachedTracker)
+            print("attach hyhy")
             self?.updateVisibleCategories()
         }
         

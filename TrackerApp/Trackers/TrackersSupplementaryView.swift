@@ -24,7 +24,7 @@ final class TrackersSupplementaryView: UICollectionReusableView {
     
     private func addSubViews() {
         headerLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
-        headerLabel.textColor = UIColor(named: "Black")
+        headerLabel.textColor = .ypBlack
         addSubview(headerLabel)
         
         headerLabel.translatesAutoresizingMaskIntoConstraints = false

@@ -37,12 +37,12 @@ final class AddItemTrackedViewController: UIViewController {
     private lazy var titleField: UITextField = {
         let titleField = UITextField()
         titleField.placeholder = "Введите название трекера"
-        titleField.backgroundColor = UIColor(named: "GrayHex")
+        titleField.backgroundColor = .ypGrayHex
         titleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: titleField.frame.height))
         titleField.leftViewMode = .always
         titleField.layer.cornerRadius = 16
         titleField.layer.borderWidth = 1.0
-        titleField.layer.borderColor = UIColor(named: "GrayHex")?.cgColor
+        titleField.layer.borderColor = UIColor.ypGrayHex?.cgColor
         titleField.layer.masksToBounds = true
         titleField.addTarget(self, action: #selector(createTrackerName), for: .editingChanged)
         return titleField
@@ -190,7 +190,7 @@ final class AddItemTrackedViewController: UIViewController {
     private func turnOnAddButton() {
         if titleField.text != nil, categoryTitle != nil, itemType == .irregularEvent || itemType == .habbit && !scheduleSelected.isEmpty, indexOfColour != nil, indexOfEmoji != nil {
             addButton.isEnabled = true
-            addButton.backgroundColor = UIColor(named: "Black")
+            addButton.backgroundColor = .ypBlack
         } else {
             addButton.isEnabled = false
             addButton.backgroundColor = UIColor(named: "Gray")
@@ -303,7 +303,7 @@ extension AddItemTrackedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CreateHabbitTableViewCell", for: indexPath)
-        cell.backgroundColor = UIColor(named: "GrayHex")
+        cell.backgroundColor = .ypGrayHex
         cell.selectionStyle = .none
         cell.accessoryType = .disclosureIndicator
         var choosenAttribute = NSMutableAttributedString()

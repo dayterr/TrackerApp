@@ -120,7 +120,7 @@ extension AddCategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = categoriesList.dequeueReusableCell(withIdentifier: "CategoriesList", for: indexPath)
         cell.textLabel?.text = TrackersViewController().categories[indexPath.row].name
-        cell.backgroundColor = UIColor(named: "GrayHex")
+        cell.backgroundColor = .ypGrayHex
         return cell
     }
 }

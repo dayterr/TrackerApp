@@ -86,7 +86,7 @@ final class StatsViewController: UIViewController {
     }
     
     private func addSubViews() {
-        view.backgroundColor = UIColor(named: "White")
+        view.backgroundColor = .ypWhite
         view.addSubview(titleLabel)
         view.addSubview(placeholderImage)
         view.addSubview(placeholderText)

@@ -26,6 +26,7 @@
 		D4A25C062B87B3AA00806D4A /* UIScheduleMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A25C052B87B3AA00806D4A /* UIScheduleMarshalling.swift */; };
 		D4A25C092B87B96800806D4A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D4A25C072B87B96800806D4A /* Model.xcdatamodeld */; };
 		D4A25C0B2B87C21200806D4A /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A25C0A2B87C21200806D4A /* TrackerRecordStore.swift */; };
+		D4A86DFB2BAA33C400642215 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A86DFA2BAA33C400642215 /* Colors.swift */; };
 		D4AB2E5C2B94D1E900249B34 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB2E5B2B94D1E900249B34 /* CategoryModel.swift */; };
 		D4AB2E5E2B94D24D00249B34 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB2E5D2B94D24D00249B34 /* CategoryViewController.swift */; };
 		D4AB2E602B9A4B9800249B34 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AB2E5F2B9A4B9800249B34 /* CategoryViewModel.swift */; };
@@ -85,6 +86,7 @@
 		D4A25C052B87B3AA00806D4A /* UIScheduleMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScheduleMarshalling.swift; sourceTree = "<group>"; };
 		D4A25C082B87B96800806D4A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		D4A25C0A2B87C21200806D4A /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
+		D4A86DFA2BAA33C400642215 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		D4AB2E5B2B94D1E900249B34 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		D4AB2E5D2B94D24D00249B34 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		D4AB2E5F2B9A4B9800249B34 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				D4A25BF72B794A3200806D4A /* Trackers */,
 				D49375A12B0B80AE00C8B78C /* SceneDelegate.swift */,
 				D49375A52B0B80AE00C8B78C /* Main.storyboard */,
+				D4A86DFA2BAA33C400642215 /* Colors.swift */,
 				D49375A82B0B80B100C8B78C /* Assets.xcassets */,
 				D49375AA2B0B80B100C8B78C /* LaunchScreen.storyboard */,
 				D49375AD2B0B80B100C8B78C /* Info.plist */,
@@ -463,6 +466,7 @@
 				D49375A02B0B80AE00C8B78C /* AppDelegate.swift in Sources */,
 				D4AB2E642B9A63DB00249B34 /* TrackerCategoryViewCell.swift in Sources */,
 				D4EC51B12B6C6EF1009A3CD9 /* TrackersSupplementaryView.swift in Sources */,
+				D4A86DFB2BAA33C400642215 /* Colors.swift in Sources */,
 				D4EC51AF2B6C4F96009A3CD9 /* SchedulingViewController.swift in Sources */,
 				D4AB2E5E2B94D24D00249B34 /* CategoryViewController.swift in Sources */,
 				D4AB2E602B9A4B9800249B34 /* CategoryViewModel.swift in Sources */,
@@ -673,6 +677,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -704,6 +709,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;

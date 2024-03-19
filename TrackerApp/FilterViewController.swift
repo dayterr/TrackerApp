@@ -34,7 +34,7 @@ final class FilterViewController: UIViewController {
     }
     
     private func addSubViews() {
-        view.backgroundColor = UIColor(named: "White")
+        view.backgroundColor = .ypWhite
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "FilterViewCell")
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .medium)]
         title = "Фильтры"
@@ -63,7 +63,7 @@ extension FilterViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilterViewCell", for: indexPath)
-        cell.backgroundColor = UIColor(named: "GrayHex")
+        cell.backgroundColor = .ypGrayHex
         cell.selectionStyle = .none
         cell.textLabel?.text = filters[indexPath.row]
         if Filter.allCases[indexPath.row] == selectedFilter {

@@ -37,7 +37,7 @@ final class SchedulingViewController: UIViewController {
     private lazy var completedButton: UIButton = {
         let button = UIButton()
         button.setTitle("Готово", for: .normal)
-        button.backgroundColor = UIColor(named: "Black")
+        button.backgroundColor = .ypBlack
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTapCompleteButton), for: .touchUpInside)
@@ -117,7 +117,7 @@ extension SchedulingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = daysOfWeekTableView.dequeueReusableCell(withIdentifier: "weekDayCell", for: indexPath)
         cell.textLabel?.text = daysOfWeek[indexPath.row]
-        cell.backgroundColor = UIColor(named: "GrayHex")
+        cell.backgroundColor = .ypGrayHex
         cell.accessoryView = switcher(for: indexPath)
         return cell
     }
