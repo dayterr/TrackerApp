@@ -123,7 +123,7 @@ final class EditTrackerViewController: UIViewController {
         button.backgroundColor = UIColor(named: "Gray")
         button.setTitle("Создать", for: .normal)
         button.clipsToBounds = true
-        button.addTarget(self, action: #selector(editeTracker), for: .touchUpInside)
+        button.addTarget(self, action: #selector(editTracker), for: .touchUpInside)
         return button
     }()
     
@@ -228,7 +228,7 @@ final class EditTrackerViewController: UIViewController {
         }
     }
                                                  
-    @objc private func editeTracker() {
+    @objc private func editTracker() {
         try? trackerStore.deleteTracker(trackerIdentifier: tracker.ID)
         let newTracker = Tracker(ID: UUID(), name: trackerTitleField.text ?? "", color: colors[indexOfSelectedColor?.row ?? 0], emoji: emoji[indexOfSelectedEmoji?.row ?? 0], schedule: trackerSchedule, wasAttached: false)
         let newCategory = TrackerCategory(name: categoryName ?? "", trackersList: [newTracker])

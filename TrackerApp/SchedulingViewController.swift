@@ -31,6 +31,9 @@ final class SchedulingViewController: UIViewController {
         tableView.rowHeight = 75
         tableView.layer.cornerRadius = 16
         tableView.dataSource = self
+        let footerView = UIView()
+        footerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        tableView.tableFooterView = footerView
         return tableView
     }()
     
@@ -48,6 +51,7 @@ final class SchedulingViewController: UIViewController {
         super.viewDidLoad()
         
         daysOfWeekTableView.register(UITableViewCell.self, forCellReuseIdentifier: "weekDayCell")
+        daysOfWeekTableView.separatorStyle = .singleLine
         
         addSubViews()
         applyConstraints()
@@ -69,7 +73,7 @@ final class SchedulingViewController: UIViewController {
             daysOfWeekTableView.topAnchor.constraint(equalTo: scheduleTitleLabel.bottomAnchor, constant: 30),
             daysOfWeekTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             daysOfWeekTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            daysOfWeekTableView.heightAnchor.constraint(equalToConstant: CGFloat(75 * daysOfWeek.count)),
+            daysOfWeekTableView.heightAnchor.constraint(equalToConstant: CGFloat(75 * daysOfWeek.count - 1)),
             completedButton.heightAnchor.constraint(equalToConstant: 60),
             completedButton.widthAnchor.constraint(equalToConstant: 335),
             completedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -86,7 +90,6 @@ final class SchedulingViewController: UIViewController {
         let weekDay = DayOfWeek.allCases[indexPath.row]
         switcher.setOn(daysOfWeekChosen.contains(weekDay), animated: true)
         switcher.onTintColor = UIColor(named: "Blue")
-        switcher.tag = indexPath.row
         switcher.addTarget(self, action: #selector(switcherChanged), for: .valueChanged)
         return switcher
     }

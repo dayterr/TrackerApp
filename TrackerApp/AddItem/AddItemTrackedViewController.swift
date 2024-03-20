@@ -161,7 +161,7 @@ final class AddItemTrackedViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             buttonsStack.heightAnchor.constraint(equalToConstant: 60),
-            buttonsStack.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 16),
+            buttonsStack.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -6),
             buttonsStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             buttonsStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             buttonsStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -60)

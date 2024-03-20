@@ -142,8 +142,6 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         
         markButton.setImage(markButtonImage, for: .normal)
         markButton.tintColor = tracker.color
-        print(tracker.color)
-        
     }
     
     func daysText(days: Int) -> String {

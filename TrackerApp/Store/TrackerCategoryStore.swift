@@ -22,7 +22,7 @@ final class TrackerCategoryStore: NSObject {
 
     weak var delegate: TrackerCategoryStoreDelegate?
     private let context: NSManagedObjectContext
-    private var trackerStore = TrackerStore()
+    private var trackerStore = TrackerStore.shared
 
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
@@ -66,7 +66,6 @@ final class TrackerCategoryStore: NSObject {
         let tracker = try trackerStore.saveTracker(tracker: newTracker)
 
         if let category = fetchedResultsController.fetchedObjects?.first(where: { $0.name == newCategory.name }) {
-            category.addToTrackers(tracker)
         } else {
             let category = TrackerCategoryCoreData(context: context)
             category.name = newCategory.name

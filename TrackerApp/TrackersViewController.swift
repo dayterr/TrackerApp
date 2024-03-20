@@ -58,9 +58,9 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
     
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
-        datePicker.backgroundColor = UIColor(named: "whiteDatePicker")
         datePicker.locale = Locale(identifier: "ru")
         datePicker.layer.cornerRadius = 8
+        datePicker.tintColor = UIColor(named: "datePickerTextColour")
         datePicker.overrideUserInterfaceStyle = .light
         datePicker.calendar.firstWeekday = 2
         datePicker.preferredDatePickerStyle = .compact
@@ -101,13 +101,14 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(placeholderImage)
         view.addSubview(placeholderLabel)
         view.addSubview(filterButton)
-        
+                
         addNewTrackerButtonIcon.target = self
         
         navigationItem.leftBarButtonItem = addNewTrackerButtonIcon
-        navigationItem.leftBarButtonItem?.imageInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
+        navigationItem.leftBarButtonItem?.imageInsets = UIEdgeInsets(top: 0, left: 2, bottom: 0, right: 0)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
-        
+        navigationItem.rightBarButtonItem?.width = 120
+
         trackersCollection.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: "TrackersCollectionViewCell")
         trackersCollection.register(TrackersSupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "TrackersSupplementaryView")
         
@@ -134,7 +135,8 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
             filterButton.heightAnchor.constraint(equalToConstant: 50),
             filterButton.widthAnchor.constraint(equalToConstant: 114),
             filterButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            filterButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            datePicker.widthAnchor.constraint(equalToConstant: 120)
         ])
         titleTrackersLabel.translatesAutoresizingMaskIntoConstraints = false
         searchField.translatesAutoresizingMaskIntoConstraints = false
@@ -164,6 +166,7 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
         trackerRecordStore.delegate = self
         
         updateVisibleCategories()
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -221,7 +224,7 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
                 }
                 return TrackerCategory(name: category.name, trackersList: trackersList)
             }
-            categories.insert(TrackerCategory(name: "Закрепленные", trackersList: attachedTrackers), at: 0)
+            categories.insert(TrackerCategory(name: "Закреплённые", trackersList: attachedTrackers), at: 0)
         }
         
         let calendar = Calendar.current
@@ -332,7 +335,6 @@ extension TrackersViewController: TrackersCollectionViewCellDelegate {
         
         let attachTracker = UIAction(title: attachedTracker ? NSLocalizedString("unattach", comment: "Text displayed on empty state") : NSLocalizedString("attach", comment: "Text displayed on empty state")) { [weak self] _ in
             try? self?.trackerStore.trackerWasAttached(trackerIdentifier: id, wasAttached: !attachedTracker)
-            print("attach hyhy")
             self?.updateVisibleCategories()
         }
         
@@ -436,6 +438,7 @@ extension TrackersViewController: TrackerCategoryStoreDelegate {
     
     func updateCategories() {
         categories = trackerCategoryStore.trackerCategories
+        print("categories")
     }
 }
 
