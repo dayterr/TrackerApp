@@ -23,6 +23,9 @@ final class TrackerRecordStore: NSObject {
     weak var delegate: TrackerRecordStoreDelegate?
     private let context: NSManagedObjectContext
     
+    var counts: [UUID: Int] = [:]
+    var records: [UUID: Bool] = [:]
+    
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerRecordCoreData> = {
         let fetchRequest = TrackerRecordCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerRecordCoreData.dateRecord, ascending: true)]

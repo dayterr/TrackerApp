@@ -13,6 +13,7 @@ final class EditTrackerViewController: UIViewController {
     private var trackerStore = TrackerStore.shared
     
     private var trackerType: TrackerType
+    private var trackerRecordStore = TrackerRecordStore.shared
     private var categoryName: String?
     private var tracker: Tracker
     private var trackerName: String?
@@ -229,8 +230,22 @@ final class EditTrackerViewController: UIViewController {
     }
                                                  
     @objc private func editTracker() {
+        var old = 0
+        do {
+            try? old = trackerRecordStore.comletedTrackerRecordById(trackerIdentifier: tracker.trackerID)
+            print("Сохранение успешно")
+        } catch {
+            print("Ошибка при сохранении: \(error)")
+        }
+        
         try? trackerStore.deleteTracker(trackerIdentifier: tracker.trackerID)
         let newTracker = Tracker(trackerID: UUID(), name: trackerTitleField.text ?? "", colour: colours[indexOfSelectedColor?.row ?? 0], emoji: emojis[indexOfSelectedEmoji?.row ?? 0], schedule: trackerSchedule, wasAttached: false)
+        trackerRecordStore.counts[newTracker.trackerID] = old
+        
+        if old > 0 {
+            trackerRecordStore.records[newTracker.trackerID] = true
+        }
+        
         let newCategory = TrackerCategory(name: categoryName ?? "", trackersList: [newTracker])
         delegate?.updateTrackersData(newCategory: newCategory, newTracker: newTracker)
         self.dismiss(animated: true, completion: nil)

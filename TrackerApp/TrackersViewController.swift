@@ -122,7 +122,7 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
             searchField.topAnchor.constraint(equalTo: titleTrackersLabel.bottomAnchor, constant: 7),
             searchField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             searchField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            trackersCollection.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 18),
+            trackersCollection.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 9),
             trackersCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             trackersCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             trackersCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -167,6 +167,10 @@ final class TrackersViewController: UIViewController, UITextFieldDelegate {
         
         updateVisibleCategories()
 
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        updateVisibleCategories()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -289,10 +293,21 @@ extension TrackersViewController: UICollectionViewDataSource {
         }
         let tracker = visibleCategories[indexPath.section].trackersList[indexPath.row]
         cell.delegate = self
-        let completedDays = completedTrackers.filter {
+        
+        var completedDays = completedTrackers.filter {
             $0.trackerRecordID == tracker.trackerID
         }.count
-        let trackerIsDone = isTrackerRecorded(id: tracker.trackerID)
+        let completedDaysFromOld = trackerRecordStore.counts[tracker.trackerID]
+        if completedDaysFromOld != nil {
+            completedDays = completedDaysFromOld ?? completedDays
+        }
+        
+        var trackerIsDone = isTrackerRecorded(id: tracker.trackerID)
+        let trackerIsDoneFromOld = trackerRecordStore.records[tracker.trackerID]
+        if trackerIsDoneFromOld != nil {
+            trackerIsDone = trackerIsDoneFromOld ?? trackerIsDone
+        }
+        
         cell.prepareForReuse()
         cell.updateCell(tracker: tracker, trackerDone: trackerIsDone, days: completedDays, indexPath: indexPath)
         return cell
@@ -317,12 +332,24 @@ extension TrackersViewController: TrackersCollectionViewCellDelegate {
             return
         }
         let trackerRecord = TrackerRecord(trackerRecordID: id, dateRecord: datePicker.date)
+        trackerRecordStore.records[id] = true
+        if trackerRecordStore.counts.contains(where: {$0.key == id}) {
+            var old = 0
+            old = trackerRecordStore.counts[id] ?? old
+            trackerRecordStore.counts.updateValue(old + 1, forKey: id)
+        }
         try? trackerRecordStore.addTrackerRecord(trackerRecord: trackerRecord)
         trackersCollection.reloadItems(at: [indexPath])
     }
     
     func trackerNotDone(id: UUID, indexPath: IndexPath) {
         let trackerRecord = TrackerRecord(trackerRecordID: id, dateRecord: datePicker.date)
+        trackerRecordStore.records[id] = false
+        if trackerRecordStore.counts.contains(where: {$0.key == id}) {
+            var old = 0
+            old = trackerRecordStore.counts[id] ?? old
+            trackerRecordStore.counts.updateValue(old - 1, forKey: id)
+        }
         try? trackerRecordStore.removeTrackerRecord(trackerRecord: trackerRecord)
         trackersCollection.reloadItems(at: [indexPath])
     }
@@ -348,7 +375,7 @@ extension TrackersViewController: TrackersCollectionViewCellDelegate {
             let editViewController = editedTracker.schedule.isEmpty ? EditTrackerViewController(trackerType: .irregularEvent, categoryName: categoryTitle, tracker: editedTracker) : EditTrackerViewController(trackerType: .habbit, categoryName: categoryTitle, tracker: editedTracker)
             editViewController.numberOfTrackerExecutions = (try? self?.trackerRecordStore.comletedTrackerRecordById(trackerIdentifier: editedTracker.trackerID)) ?? 0
             editViewController.delegate = self
-            
+            self?.updateVisibleCategories()
             let navigationController = UINavigationController(rootViewController: editViewController)
             self?.present(navigationController, animated: true)
         }
@@ -386,8 +413,9 @@ extension TrackersViewController: TrackersCollectionViewCellDelegate {
                 }
             })
             
-            alert.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: "Text displayed on empty state"),
-                                          style: .cancel))
+            //self?.updateVisibleCategories()
+            
+            alert.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: "Text displayed on empty state"), style: .cancel))
             self?.present(alert, animated: true)
             return
         }

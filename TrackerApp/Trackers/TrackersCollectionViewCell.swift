@@ -15,6 +15,8 @@ protocol TrackersCollectionViewCellDelegate: AnyObject {
 
 final class TrackerCollectionViewCell: UICollectionViewCell {
     
+    private var trackerRecordStore = TrackerRecordStore.shared
+    
     private var trackerID: UUID?
     private var indexPath: IndexPath?
     private var isDone: Bool = false
@@ -132,14 +134,25 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     func updateCell(tracker: Tracker, trackerDone: Bool, days: Int, indexPath: IndexPath) {
         self.trackerID = tracker.trackerID
         self.indexPath = indexPath
-        self.isDone = trackerDone
+        
+        let trackerIsDoneFromOld = trackerRecordStore.records[tracker.trackerID]
+        if trackerIsDoneFromOld != nil {
+            self.isDone = trackerIsDoneFromOld ?? trackerDone
+        }
+        
+        var daysAmount = days
+        
+        let completedDaysFromOld = trackerRecordStore.counts[tracker.trackerID]
+        if completedDaysFromOld != nil {
+            daysAmount = completedDaysFromOld ?? days
+        }
+        
         self.wasAttached.isHidden = !tracker.wasAttached
         field.backgroundColor = tracker.colour
         emojiLabel.text = tracker.emoji
         titleLabel.text = tracker.name
         amountLabel.text = daysText(days: days)
         let markButtonImage = isDone ? UIImage(named: "DoneButton") : UIImage(named: "PlusButton")
-        
         markButton.setImage(markButtonImage, for: .normal)
         markButton.tintColor = tracker.colour
     }
