@@ -90,6 +90,7 @@ final class SchedulingViewController: UIViewController {
         let weekDay = DayOfWeek.allCases[indexPath.row]
         switcher.setOn(daysOfWeekChosen.contains(weekDay), animated: true)
         switcher.onTintColor = UIColor(named: "Blue")
+        switcher.tag = indexPath.row
         switcher.addTarget(self, action: #selector(switcherChanged), for: .valueChanged)
         return switcher
     }

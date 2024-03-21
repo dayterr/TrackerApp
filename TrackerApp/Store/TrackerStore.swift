@@ -16,7 +16,7 @@ protocol TrackerStoreDelegate: AnyObject {
     func updateCategories()
 }
 
-final class TrackerStore: NSObject, NSFetchedResultsControllerDelegate {
+final class TrackerStore: NSObject {
     
     static let shared = TrackerStore()
 
@@ -68,14 +68,14 @@ final class TrackerStore: NSObject, NSFetchedResultsControllerDelegate {
         else {
             throw TrackerStoreError.decodingTrackerError
         }
-       return Tracker(ID: trackerIdentifier, name: name, color: colorMarshalling.colour(from: color), emoji: emoji, schedule: scheduleMarshalling.weekDays(from: data.schedule), wasAttached: data.wasAttached)
+       return Tracker(trackerID: trackerIdentifier, name: name, colour: colorMarshalling.colour(from: color), emoji: emoji, schedule: scheduleMarshalling.weekDays(from: data.schedule), wasAttached: data.wasAttached)
     }
 
     func saveTracker(tracker: Tracker) throws -> TrackerCoreData {
         let trackerCoreData = TrackerCoreData(context: context)
-        trackerCoreData.trackerID = tracker.ID
+        trackerCoreData.trackerID = tracker.trackerID
         trackerCoreData.name = tracker.name
-        trackerCoreData.colour = colorMarshalling.hexString(from: tracker.color)
+        trackerCoreData.colour = colorMarshalling.hexString(from: tracker.colour)
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.schedule = scheduleMarshalling.int(from: tracker.schedule)
         trackerCoreData.wasAttached = tracker.wasAttached
@@ -106,6 +106,12 @@ final class TrackerStore: NSObject, NSFetchedResultsControllerDelegate {
         else {
             throw TrackerStoreError.decodingTrackerError
         }
-        return Tracker(ID: trackerIdentifier, name: name, color: colorMarshalling.colour(from: color), emoji: emoji, schedule: scheduleMarshalling.weekDays(from: record.schedule), wasAttached: record.wasAttached)
+        return Tracker(trackerID: trackerIdentifier, name: name, colour: colorMarshalling.colour(from: color), emoji: emoji, schedule: scheduleMarshalling.weekDays(from: record.schedule), wasAttached: record.wasAttached)
+    }
+}
+
+extension TrackerStore: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        delegate?.updateCategories()
     }
 }

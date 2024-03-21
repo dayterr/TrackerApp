@@ -21,11 +21,11 @@ final class EditTrackerViewController: UIViewController {
     private var indexOfSelectedEmoji: IndexPath?
     var numberOfTrackerExecutions = 0
     
-    private let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
+    private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱",
                          "😇", "😡", "🥶", "🤔", "🙌", "🍔",
                          "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
     ]
-    private let colors: [UIColor] = (1...18).map { UIColor(named: "Colour\($0)") ?? UIColor.clear }
+    private let colours: [UIColor] = (1...18).map { UIColor(named: "Colour\($0)") ?? UIColor.clear }
     
     init(trackerType: TrackerType, categoryName: String, tracker: Tracker) {
         
@@ -156,10 +156,10 @@ final class EditTrackerViewController: UIViewController {
         
         trackerName = tracker.name
         trackerTitleField.text = trackerName
-        indexOfSelectedEmoji = [0, Int(emoji.firstIndex(where: { $0 == tracker.emoji } ) ?? 0)]
+        indexOfSelectedEmoji = [0, Int(emojis.firstIndex(where: { $0 == tracker.emoji } ) ?? 0)]
         let colorMarshalling = UIColourMarshalling()
-        indexOfSelectedColor = [1, Int(colors.firstIndex(where: {
-            colorMarshalling.hexString(from: $0) == colorMarshalling.hexString(from: tracker.color) } ) ?? 0)]
+        indexOfSelectedColor = [1, Int(colours.firstIndex(where: {
+            colorMarshalling.hexString(from: $0) == colorMarshalling.hexString(from: tracker.colour) } ) ?? 0)]
         numberOfCompletedDaysLabel.text = "\(TrackerCollectionViewCell().daysText(days: numberOfTrackerExecutions))"
         
         NSLayoutConstraint.activate([
@@ -229,8 +229,8 @@ final class EditTrackerViewController: UIViewController {
     }
                                                  
     @objc private func editTracker() {
-        try? trackerStore.deleteTracker(trackerIdentifier: tracker.ID)
-        let newTracker = Tracker(ID: UUID(), name: trackerTitleField.text ?? "", color: colors[indexOfSelectedColor?.row ?? 0], emoji: emoji[indexOfSelectedEmoji?.row ?? 0], schedule: trackerSchedule, wasAttached: false)
+        try? trackerStore.deleteTracker(trackerIdentifier: tracker.trackerID)
+        let newTracker = Tracker(trackerID: UUID(), name: trackerTitleField.text ?? "", colour: colours[indexOfSelectedColor?.row ?? 0], emoji: emojis[indexOfSelectedEmoji?.row ?? 0], schedule: trackerSchedule, wasAttached: false)
         let newCategory = TrackerCategory(name: categoryName ?? "", trackersList: [newTracker])
         delegate?.updateTrackersData(newCategory: newCategory, newTracker: newTracker)
         self.dismiss(animated: true, completion: nil)
@@ -312,9 +312,9 @@ extension EditTrackerViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if section == 0 {
-            return emoji.count
+            return emojis.count
         } else if section == 1 {
-            return colors.count
+            return colours.count
         } else { return 0 }
     }
     

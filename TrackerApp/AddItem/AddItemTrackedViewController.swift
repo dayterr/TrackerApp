@@ -214,7 +214,7 @@ final class AddItemTrackedViewController: UIViewController {
     }
     
     @objc private func createNewItem() {
-        let newItem = Tracker(ID: UUID(), name: titleField.text ?? "", color: colours[indexOfColour?.row ?? 0], emoji: emojis[indexOfEmoji?.row ?? 0], schedule: scheduleSelected, wasAttached: false)
+        let newItem = Tracker(trackerID: UUID(), name: titleField.text ?? "", colour: colours[indexOfColour?.row ?? 0], emoji: emojis[indexOfEmoji?.row ?? 0], schedule: scheduleSelected, wasAttached: false)
         let newCategory = TrackerCategory(name: categoryTitle ?? "", trackersList: [newItem])
         delegate?.updateTrackersData(newCategory: newCategory, newTracker: newItem)
         self.dismiss(animated: true, completion: nil)

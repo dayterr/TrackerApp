@@ -63,15 +63,25 @@ final class TrackerCategoryStore: NSObject {
 
     func saveTrackerCategory(newCategory: TrackerCategory) throws {
         guard let newTracker = newCategory.trackersList.first else { return }
+        print(newTracker, "newTracker")
         let tracker = try trackerStore.saveTracker(tracker: newTracker)
 
         if let category = fetchedResultsController.fetchedObjects?.first(where: { $0.name == newCategory.name }) {
+            category.addToTrackers(tracker)
+            print("added")
         } else {
             let category = TrackerCategoryCoreData(context: context)
             category.name = newCategory.name
             category.trackers = NSSet(array: [tracker])
         }
-        try context.save()
+        //try context.save()
+        do {
+            try context.save()
+            print("Сохранение успешно")
+        } catch {
+            print("Ошибка при сохранении: \(error)")
+        }
+
     }
     
     func saveNewTrackerCategory(categoryTitle: String) throws {
@@ -81,7 +91,7 @@ final class TrackerCategoryStore: NSObject {
     }
     
     func categoryContainsTracker(trackerIdentifier: UUID?) throws -> String {
-        trackerCategories.first(where: { $0.trackersList.contains(where: { $0.ID == trackerIdentifier } ) } )?.name ?? ""
+        trackerCategories.first(where: { $0.trackersList.contains(where: { $0.trackerID == trackerIdentifier } ) } )?.name ?? ""
     }
 }
 

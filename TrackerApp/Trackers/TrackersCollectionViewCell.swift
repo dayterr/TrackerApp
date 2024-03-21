@@ -130,18 +130,18 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     }
     
     func updateCell(tracker: Tracker, trackerDone: Bool, days: Int, indexPath: IndexPath) {
-        self.trackerID = tracker.ID
+        self.trackerID = tracker.trackerID
         self.indexPath = indexPath
         self.isDone = trackerDone
         self.wasAttached.isHidden = !tracker.wasAttached
-        field.backgroundColor = tracker.color
+        field.backgroundColor = tracker.colour
         emojiLabel.text = tracker.emoji
         titleLabel.text = tracker.name
         amountLabel.text = daysText(days: days)
         let markButtonImage = isDone ? UIImage(named: "DoneButton") : UIImage(named: "PlusButton")
         
         markButton.setImage(markButtonImage, for: .normal)
-        markButton.tintColor = tracker.color
+        markButton.tintColor = tracker.colour
     }
     
     func daysText(days: Int) -> String {
