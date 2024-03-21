@@ -17,15 +17,18 @@ protocol TrackerCategoryStoreDelegate: AnyObject {
 }
 
 final class TrackerCategoryStore: NSObject {
+    
+    static let shared = TrackerCategoryStore()
 
     weak var delegate: TrackerCategoryStoreDelegate?
     private let context: NSManagedObjectContext
-    private var trackerStore = TrackerStore()
+    private var trackerStore = TrackerStore.shared
+    private var trackerRecordStore = TrackerRecordStore.shared
 
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCategoryCoreData.name, ascending: true)]
-        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultController.delegate = self
         try? fetchedResultController.performFetch()
         return fetchedResultController
@@ -68,15 +71,26 @@ final class TrackerCategoryStore: NSObject {
         } else {
             let category = TrackerCategoryCoreData(context: context)
             category.name = newCategory.name
-            category.trackers = NSSet(array: [tracker])
+            category.addToTrackers(tracker)
         }
-        try context.save()
+        //try context.save()
+        do {
+            try context.save()
+            print("Сохранение успешно")
+        } catch {
+            print("Ошибка при сохранении: \(error)")
+        }
+
     }
     
     func saveNewTrackerCategory(categoryTitle: String) throws {
         let category = TrackerCategoryCoreData(context: context)
         category.name = categoryTitle
         try context.save()
+    }
+    
+    func categoryContainsTracker(trackerIdentifier: UUID?) throws -> String {
+        trackerCategories.first(where: { $0.trackersList.contains(where: { $0.trackerID == trackerIdentifier } ) } )?.name ?? ""
     }
 }
 

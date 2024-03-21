@@ -12,8 +12,8 @@ final class TrackerCategoryViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = UIColor(named: "GrayHex")
-        textLabel?.textColor = UIColor(named: "Black")
+        backgroundColor = .ypGrayHex
+        textLabel?.textColor = .ypBlack
         textLabel?.font = UIFont.systemFont(ofSize: 17)
         layer.cornerRadius = 16
         separatorInset.right = 16

@@ -37,12 +37,12 @@ final class AddItemTrackedViewController: UIViewController {
     private lazy var titleField: UITextField = {
         let titleField = UITextField()
         titleField.placeholder = "Введите название трекера"
-        titleField.backgroundColor = UIColor(named: "GrayHex")
+        titleField.backgroundColor = .ypGrayHex
         titleField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: titleField.frame.height))
         titleField.leftViewMode = .always
         titleField.layer.cornerRadius = 16
         titleField.layer.borderWidth = 1.0
-        titleField.layer.borderColor = UIColor(named: "GrayHex")?.cgColor
+        titleField.layer.borderColor = UIColor.ypGrayHex?.cgColor
         titleField.layer.masksToBounds = true
         titleField.addTarget(self, action: #selector(createTrackerName), for: .editingChanged)
         return titleField
@@ -120,11 +120,6 @@ final class AddItemTrackedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        buttonsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CreateHabbitTableViewCell")
-        collectionView.register(EmojisCollectionViewCell.self, forCellWithReuseIdentifier: "EmojisCollectionViewCell")
-        collectionView.register(ColoursCollectionViewCell.self, forCellWithReuseIdentifier: "ColoursCollectionViewCell")
-        collectionView.register(AddItemTrackedSupplView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         addSubViews()
         applyConstraints()
         
@@ -133,6 +128,12 @@ final class AddItemTrackedViewController: UIViewController {
     }
     
     private func addSubViews() {
+        view.backgroundColor = .white
+        buttonsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CreateHabbitTableViewCell")
+        collectionView.register(EmojisCollectionViewCell.self, forCellWithReuseIdentifier: "EmojisCollectionViewCell")
+        collectionView.register(ColoursCollectionViewCell.self, forCellWithReuseIdentifier: "ColoursCollectionViewCell")
+        collectionView.register(AddItemTrackedSupplView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        
         navigationItem.setHidesBackButton(true, animated: true)
         view.addSubview(scrollView)
         scrollView.addSubview(titleField)
@@ -160,7 +161,7 @@ final class AddItemTrackedViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             buttonsStack.heightAnchor.constraint(equalToConstant: 60),
-            buttonsStack.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 16),
+            buttonsStack.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -17),
             buttonsStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             buttonsStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             buttonsStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -60)
@@ -189,7 +190,7 @@ final class AddItemTrackedViewController: UIViewController {
     private func turnOnAddButton() {
         if titleField.text != nil, categoryTitle != nil, itemType == .irregularEvent || itemType == .habbit && !scheduleSelected.isEmpty, indexOfColour != nil, indexOfEmoji != nil {
             addButton.isEnabled = true
-            addButton.backgroundColor = UIColor(named: "Black")
+            addButton.backgroundColor = .ypBlack
         } else {
             addButton.isEnabled = false
             addButton.backgroundColor = UIColor(named: "Gray")
@@ -213,7 +214,7 @@ final class AddItemTrackedViewController: UIViewController {
     }
     
     @objc private func createNewItem() {
-        let newItem = Tracker(ID: UUID(), name: titleField.text ?? "", color: colours[indexOfColour?.row ?? 0], emoji: emojis[indexOfEmoji?.row ?? 0], schedule: scheduleSelected)
+        let newItem = Tracker(trackerID: UUID(), name: titleField.text ?? "", colour: colours[indexOfColour?.row ?? 0], emoji: emojis[indexOfEmoji?.row ?? 0], schedule: scheduleSelected, wasAttached: false)
         let newCategory = TrackerCategory(name: categoryTitle ?? "", trackersList: [newItem])
         delegate?.updateTrackersData(newCategory: newCategory, newTracker: newItem)
         self.dismiss(animated: true, completion: nil)
@@ -302,7 +303,7 @@ extension AddItemTrackedViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CreateHabbitTableViewCell", for: indexPath)
-        cell.backgroundColor = UIColor(named: "GrayHex")
+        cell.backgroundColor = .ypGrayHex
         cell.selectionStyle = .none
         cell.accessoryType = .disclosureIndicator
         var choosenAttribute = NSMutableAttributedString()

@@ -1,0 +1,38 @@
+/* 
+  Localizable.strings
+  TrackerApp
+
+  Created by Ruth Dayter on 17.03.2024.
+  
+*/
+
+trackersTitle = "Трекеры";
+filterButton = "Фильтры";
+statistics = "Статистика";
+oneDay = "день";
+day = "дня";
+days = "дней";
+mainPlaceholderTextOne = "Что будем отслеживать?";
+mainPlaceholderTextTwo = "Ничего не найдено";
+searchPlaceholder = "Поиск";
+edit = "Редактировать";
+attach = "Закрепить";
+unattach = "Открепить";
+delete = "Удалить";
+deleteWarning = "Уверены, что хотите удалить трекер?";
+cancel = "Отменить";
+monday = "Понедельник";
+tuesday = "Вторник";
+wednesday = "Среда";
+thursday = "Четверг";
+friday = "Пятница";
+saturday = "Суббота";
+sunday = "Воскресенье";
+mondayShort = "Пн";
+tuesdayShort = "Вт";
+wednesdayShort = "Ср";
+thursdayShort = "Чт";
+fridayShort = "Пт";
+saturdayShort = "Сб";
+sundayShort = "Вс";
+statistics = "Статистика";

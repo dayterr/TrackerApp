@@ -47,11 +47,12 @@ enum TrackerType {
 }
 
 struct Tracker {
-    let ID: UUID
+    let trackerID: UUID
     let name: String
-    let color: UIColor
+    let colour: UIColor
     let emoji: String
     let schedule: [DayOfWeek]
+    let wasAttached: Bool
 }
 
 struct TrackerCategory {
@@ -60,6 +61,13 @@ struct TrackerCategory {
 }
 
 struct TrackerRecord {
-    let ID: UUID
+    let trackerRecordID: UUID
     let dateRecord: Date
+}
+
+enum Filter: String, CaseIterable {
+    case allTrackers = "Все трекеры"
+    case trackersForToday = "Трекеры на сегодня"
+    case completedTrackers = "Завершённые"
+    case incompletedTrackers = "Незавершённые"
 }

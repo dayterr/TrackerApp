@@ -31,13 +31,16 @@ final class SchedulingViewController: UIViewController {
         tableView.rowHeight = 75
         tableView.layer.cornerRadius = 16
         tableView.dataSource = self
+        let footerView = UIView()
+        footerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        tableView.tableFooterView = footerView
         return tableView
     }()
     
     private lazy var completedButton: UIButton = {
         let button = UIButton()
         button.setTitle("Готово", for: .normal)
-        button.backgroundColor = UIColor(named: "Black")
+        button.backgroundColor = .ypBlack
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTapCompleteButton), for: .touchUpInside)
@@ -48,6 +51,7 @@ final class SchedulingViewController: UIViewController {
         super.viewDidLoad()
         
         daysOfWeekTableView.register(UITableViewCell.self, forCellReuseIdentifier: "weekDayCell")
+        daysOfWeekTableView.separatorStyle = .singleLine
         
         addSubViews()
         applyConstraints()
@@ -69,7 +73,7 @@ final class SchedulingViewController: UIViewController {
             daysOfWeekTableView.topAnchor.constraint(equalTo: scheduleTitleLabel.bottomAnchor, constant: 30),
             daysOfWeekTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             daysOfWeekTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            daysOfWeekTableView.heightAnchor.constraint(equalToConstant: CGFloat(75 * daysOfWeek.count)),
+            daysOfWeekTableView.heightAnchor.constraint(equalToConstant: CGFloat(75 * daysOfWeek.count - 1)),
             completedButton.heightAnchor.constraint(equalToConstant: 60),
             completedButton.widthAnchor.constraint(equalToConstant: 335),
             completedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -117,7 +121,7 @@ extension SchedulingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = daysOfWeekTableView.dequeueReusableCell(withIdentifier: "weekDayCell", for: indexPath)
         cell.textLabel?.text = daysOfWeek[indexPath.row]
-        cell.backgroundColor = UIColor(named: "GrayHex")
+        cell.backgroundColor = .ypGrayHex
         cell.accessoryView = switcher(for: indexPath)
         return cell
     }
