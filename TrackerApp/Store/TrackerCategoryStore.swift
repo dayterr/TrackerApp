@@ -27,7 +27,7 @@ final class TrackerCategoryStore: NSObject {
     private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \TrackerCategoryCoreData.name, ascending: true)]
-        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.context, sectionNameKeyPath: nil, cacheName: nil)
+        let fetchedResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         fetchedResultController.delegate = self
         try? fetchedResultController.performFetch()
         return fetchedResultController
@@ -63,12 +63,10 @@ final class TrackerCategoryStore: NSObject {
 
     func saveTrackerCategory(newCategory: TrackerCategory) throws {
         guard let newTracker = newCategory.trackersList.first else { return }
-        print(newTracker, "newTracker")
         let tracker = try trackerStore.saveTracker(tracker: newTracker)
 
         if let category = fetchedResultsController.fetchedObjects?.first(where: { $0.name == newCategory.name }) {
             category.addToTrackers(tracker)
-            print("added")
         } else {
             let category = TrackerCategoryCoreData(context: context)
             category.name = newCategory.name
